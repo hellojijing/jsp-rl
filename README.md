@@ -1,3 +1,8 @@
+# jsp-rl
+This project is not completed. My work is based on miyosuda git. https://github.com/miyosuda/async_deep_reinforce.
+
+The original Readme file is as follow:
+
 # async_deep_reinforce
 
 Asynchronous deep reinforcement learning
