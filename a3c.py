@@ -3,6 +3,7 @@ import tensorflow as tf
 import threading
 import numpy as np
 
+
 import signal
 import random
 import math
@@ -26,7 +27,13 @@ from constants import RMSP_ALPHA
 from constants import GRAD_NORM_CLIP
 from constants import USE_GPU
 from constants import USE_LSTM
+from constants import MAX_TIME_EPISODE
+from constants import MACHINE_SIZE
+from constants import RESULT_DIR
 
+from plot import line_plot
+
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 def log_uniform(lo, hi, rate):
   log_lo = math.log(lo)
@@ -62,12 +69,21 @@ grad_applier = RMSPropApplier(learning_rate = learning_rate_input,
                               epsilon = RMSP_EPSILON,
                               clip_norm = GRAD_NORM_CLIP,
                               device = device)
+# 设置同步mutex
+mutex = threading.Lock()
+#设置同步的condition
+condition = threading.Condition()
 
+# 设置共享变量，用来线程间通信，存放刚完成前一道工序的job，即用来通知后一道工序的机器来启动该工序为等待状态
+arrived_jobs = list()
+for i in range(MACHINE_SIZE):
+    arrived_jobs.append(list())
+terminal_count = [0]
 for i in range(PARALLEL_SIZE):
   training_thread = A3CTrainingThread(i, global_network, initial_learning_rate,
                                       learning_rate_input,
                                       grad_applier, MAX_TIME_STEP,
-                                      device = device)
+                                      device = device, arrived_jobs = arrived_jobs, terminal_count = terminal_count, mutex=mutex, condition=condition)
   training_threads.append(training_thread)
 
 # prepare session
@@ -103,24 +119,48 @@ else:
   # set wall time
   wall_t = 0.0
 
+complete_time = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
+all_episode_rewards = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
 
 def train_function(parallel_index):
   global global_t
-  
+
   training_thread = training_threads[parallel_index]
   # set start_time
   start_time = time.time() - wall_t
   training_thread.set_start_time(start_time)
 
+  local_episode = 0
   while True:
     if stop_requested:
       break
-    if global_t > MAX_TIME_STEP:
+    # if global_t > MAX_TIME_STEP:
+    #   break
+    if local_episode > MAX_TIME_EPISODE - 1:
       break
 
-    diff_global_t = training_thread.process(sess, global_t, summary_writer,
+    diff_global_t, episode_complete_time, episode_reward = training_thread.process(sess, global_t, summary_writer,
                                             summary_op, score_input)
     global_t += diff_global_t
+
+    print("\n----------------------------------------------------------------")
+    # print("time = {}".format(time.time()))
+    print("machine = %d, episode = %d, complete time = %d"%(parallel_index, local_episode, episode_complete_time))
+
+    complete_time[local_episode][parallel_index] = episode_complete_time
+    all_episode_rewards[local_episode][parallel_index] = episode_reward
+
+    condition.acquire()
+    terminal_count[0] += 1
+    if terminal_count[0] == MACHINE_SIZE:
+        terminal_count[0] = 0
+        condition.notifyAll()
+    else:
+        condition.wait()
+    condition.release()
+
+    local_episode += 1
+
     
     
 def signal_handler(signal, frame):
@@ -143,13 +183,24 @@ for t in train_threads:
 print('Press Ctrl+C to stop')
 signal.pause()
 
+makespan = complete_time.max(axis=1)
+print("complete time: /n={}".format(complete_time))
+print("complete time for each episode: /n={}".format(makespan))
+
+line_plot(np.arange(MAX_TIME_EPISODE), makespan, "episode", "makespan", "Makespan")
+
+np.savetxt('makespan.txt', makespan)
+np.savetxt('complete_time.txt', complete_time)
+np.savetxt('all_episode_rewards.txt', all_episode_rewards)
+
+
 print('Now saving data. Please wait')
-  
+
 for t in train_threads:
   t.join()
 
 if not os.path.exists(CHECKPOINT_DIR):
-  os.mkdir(CHECKPOINT_DIR)  
+  os.mkdir(CHECKPOINT_DIR)
 
 # write wall time
 wall_t = time.time() - start_time
@@ -158,4 +209,6 @@ with open(wall_t_fname, 'w') as f:
   f.write(str(wall_t))
 
 saver.save(sess, CHECKPOINT_DIR + '/' + 'checkpoint', global_step = global_t)
+
+
 

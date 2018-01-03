@@ -5,14 +5,18 @@ import random
 import time
 import sys
 
-from game_state import GameState
-from game_state import ACTION_SIZE
+# from game_state import GameState
+# from game_state import ACTION_SIZE
+from constants import ACTION_SIZE
 from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
 
 from constants import GAMMA
 from constants import LOCAL_T_MAX
 from constants import ENTROPY_BETA
 from constants import USE_LSTM
+
+from jsp_data import get_data_by_machine
+from jsp_env import JspEnv
 
 LOG_INTERVAL = 100
 PERFORMANCE_LOG_INTERVAL = 1000
@@ -25,15 +29,26 @@ class A3CTrainingThread(object):
                learning_rate_input,
                grad_applier,
                max_global_time_step,
-               device):
+               device, arrived_jobs, terminal_count, mutex, condition):
 
     self.thread_index = thread_index
     self.learning_rate_input = learning_rate_input
     self.max_global_time_step = max_global_time_step
 
+    # 通过thread_index 即机器编号来获取在该机器上加工的所有工序
+    self.operations = get_data_by_machine(thread_index)
+    self.terminal_count = terminal_count
+    self.mutex = mutex
+    self.condition = condition
+    self.is_terminal_counted = False
+    self.last_episode_reward = 0
+
+
     if USE_LSTM:
+        # 第一个参数是action size，这里传入在该机器上代加工的工序数
       self.local_network = GameACLSTMNetwork(ACTION_SIZE, thread_index, device)
     else:
+        # 第一个参数是action size，这里传入在该机器上代加工的工序数
       self.local_network = GameACFFNetwork(ACTION_SIZE, thread_index, device)
 
     self.local_network.prepare_loss(ENTROPY_BETA)
@@ -52,7 +67,9 @@ class A3CTrainingThread(object):
       
     self.sync = self.local_network.sync_from(global_network)
     
-    self.game_state = GameState(113 * thread_index)
+    # self.game_state = GameState(113 * thread_index)
+    # 创建该工序的环境
+    self.env = JspEnv(self.operations, thread_index, arrived_jobs)
     
     self.local_t = 0
 
@@ -70,7 +87,20 @@ class A3CTrainingThread(object):
     return learning_rate
 
   def choose_action(self, pi_values):
-    return np.random.choice(range(len(pi_values)), p=pi_values)
+    sum = np.sum(pi_values)
+    for i in range(len(pi_values)):
+      if i not in self.env.action_space:
+        pi_values[i] = 0
+    sum = np.sum(pi_values)
+    if sum == 0:
+      return np.random.choice(self.env.action_space)
+    else:
+      for i in range(len(pi_values)):
+        pi_values[i] = pi_values[i] / sum
+      sum = np.sum(pi_values)
+      return np.random.choice(range(len(pi_values)), p=pi_values)
+
+
 
   def _record_score(self, sess, summary_writer, summary_op, score_input, score, global_t):
     summary_str = sess.run(summary_op, feed_dict={
@@ -99,24 +129,38 @@ class A3CTrainingThread(object):
       start_lstm_state = self.local_network.lstm_state_out
     
     # t_max times loop
-    for i in range(LOCAL_T_MAX):
-      pi_, value_ = self.local_network.run_policy_and_value(sess, self.game_state.s_t)
+    # for i in range(LOCAL_T_MAX):
+    while True:
+      # pi_, value_ = self.local_network.run_policy_and_value(sess, self.game_state.s_t)
+      pi_, value_ = self.local_network.run_policy_and_value(sess, self.env.local_state)
       action = self.choose_action(pi_)
 
-      states.append(self.game_state.s_t)
+      # states.append(self.game_state.s_t)
+      states.append(self.env.local_state)
       actions.append(action)
       values.append(value_)
 
-      if (self.thread_index == 0) and (self.local_t % LOG_INTERVAL == 0):
-        print("pi={}".format(pi_))
-        print(" V={}".format(value_))
+      # if (self.thread_index == 0) and (self.local_t % LOG_INTERVAL == 0):
+      # if (self.thread_index == 0):
+      #   print('machine index: ' + str(self.thread_index))
+      #   print('arrived jobs:{}'.format(self.env.arrived_jobs[self.thread_index]))
+      #   print('actions:{}'.format(action))
+      #   print('clock:{}'.format(self.env.clock))
+      #   print("action space = {}".format(self.env.action_space))
+      #
+      #   print("pi={}".format(pi_))
+      #   print(" V={}".format(value_))
 
+      '''
       # process game
       self.game_state.process(action)
 
       # receive game result
       reward = self.game_state.reward
       terminal = self.game_state.terminal
+      '''
+
+      new_state, reward, terminal, info = self.env.step(action)
 
       self.episode_reward += reward
 
@@ -126,24 +170,41 @@ class A3CTrainingThread(object):
       self.local_t += 1
 
       # s_t1 -> s_t
-      self.game_state.update()
+      # self.game_state.update()
       
       if terminal:
         terminal_end = True
-        print("score={}".format(self.episode_reward))
+        # print("score={}".format(self.episode_reward))
+        # print("complete time={}".format(self.env.clock))
 
         self._record_score(sess, summary_writer, summary_op, score_input,
                            self.episode_reward, global_t)
-          
+
+        # print('\n----------------------------------------------------')
+        # print('machine index: ' + str(self.thread_index))
+        # print('arrived jobs:{}'.format(self.env.arrived_jobs[self.thread_index]))
+        # print('actions:{}'.format(action))
+        # print('clock:{}'.format(self.env.clock))
+        # print("jobs size = {}".format(len(self.env.init_operations)))
+        # print("action space = {}".format(self.env.action_space))
+        # print("pi={}".format(pi_))
+        # print(" V={}".format(value_))
+        # print('----------------------------------------------------\n')
+
+        self.complete_time = self.env.clock
+        self.last_episode_reward = self.episode_reward
         self.episode_reward = 0
-        self.game_state.reset()
+        # self.game_state.reset()
+        self.env.reset()
         if USE_LSTM:
           self.local_network.reset_state()
         break
 
+
     R = 0.0
     if not terminal_end:
-      R = self.local_network.run_value(sess, self.game_state.s_t)
+      # R = self.local_network.run_value(sess, self.game_state.s_t)
+      R = self.local_network.run_value(sess, self.env.local_state)
 
     actions.reverse()
     states.reverse()
@@ -159,6 +220,7 @@ class A3CTrainingThread(object):
     for(ai, ri, si, Vi) in zip(actions, rewards, states, values):
       R = ri + GAMMA * R
       td = R - Vi
+      # a = np.zeros([ACTION_SIZE])
       a = np.zeros([ACTION_SIZE])
       a[ai] = 1
 
@@ -202,5 +264,5 @@ class A3CTrainingThread(object):
 
     # return advanced local step size
     diff_local_t = self.local_t - start_local_t
-    return diff_local_t
+    return diff_local_t, self.complete_time, self.last_episode_reward
     
