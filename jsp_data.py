@@ -1,7 +1,7 @@
 from jobshop import readJobs
 from jobshop import printJobs
 # from constants import DATA_PATH
-DATA_PATH = "/home/peter/hfut/sourceCode/async_deep_reinforce/dataset/ft10"  # 数据路径
+DATA_PATH = "/home/peter/hfut/sourceCode/jsp-rl/dataset/ft10"  # 数据路径
 is_data_loaded = False
 all_jobs = tuple()
 

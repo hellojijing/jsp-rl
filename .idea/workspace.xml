@@ -2,95 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="db406dba-adf5-4abc-9618-7efe336016db" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta01" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta02" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta03" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta04" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta05" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta06" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta07" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta08" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta09" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta10" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta11" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta12" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta13" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta14" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta15" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta16" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta17" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta18" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta19" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta20" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta21" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta22" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta23" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta24" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta25" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta26" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta27" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta28" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta29" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta30" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta31" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta32" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta33" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta34" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta35" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta36" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta37" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta38" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta39" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta40" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta41" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta42" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta43" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta44" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta45" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta46" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta47" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta48" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta49" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta50" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta51" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta52" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta53" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta54" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta55" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta56" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta57" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta58" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta59" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta60" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta61" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta62" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta63" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta64" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta65" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta66" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta67" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta68" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta69" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta70" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta71" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta72" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta73" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta74" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta75" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta76" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta77" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta78" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta79" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/dataset/ta80" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/jobshop.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/jsp_data.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/jsp_env.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/plot.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/visualize.py" />
-      <change beforePath="$PROJECT_DIR$/a3c.py" afterPath="$PROJECT_DIR$/a3c.py" />
-      <change beforePath="$PROJECT_DIR$/a3c_training_thread.py" afterPath="$PROJECT_DIR$/a3c_training_thread.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/all_episode_rewards.txt" afterPath="$PROJECT_DIR$/all_episode_rewards.txt" />
+      <change beforePath="$PROJECT_DIR$/complete_time.txt" afterPath="$PROJECT_DIR$/complete_time.txt" />
       <change beforePath="$PROJECT_DIR$/constants.py" afterPath="$PROJECT_DIR$/constants.py" />
-      <change beforePath="$PROJECT_DIR$/game_ac_network.py" afterPath="$PROJECT_DIR$/game_ac_network.py" />
+      <change beforePath="$PROJECT_DIR$/jsp_data.py" afterPath="$PROJECT_DIR$/jsp_data.py" />
+      <change beforePath="$PROJECT_DIR$/makespan.txt" afterPath="$PROJECT_DIR$/makespan.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -105,7 +22,7 @@
         <entry file="file://$PROJECT_DIR$/jsp_data.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="36">
-              <caret line="3" column="74" lean-forward="false" selection-start-line="3" selection-start-column="74" selection-end-line="3" selection-end-column="74" />
+              <caret line="3" column="47" lean-forward="false" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -114,8 +31,8 @@
       <file leaf-file-name="a3c_training_thread.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/a3c_training_thread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+            <state relative-caret-position="1008">
+              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
@@ -138,11 +55,9 @@
       <file leaf-file-name="constants.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/constants.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="26" column="22" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-              <folding>
-                <element signature="e#24#58#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="450">
+              <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -150,11 +65,9 @@
       <file leaf-file-name="jsp_env.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jsp_env.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="80" column="27" lean-forward="false" selection-start-line="80" selection-start-column="27" selection-end-line="80" selection-end-column="27" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2214">
+              <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -162,7 +75,7 @@
       <file leaf-file-name="core.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../library/gym/gym/core.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
+            <state relative-caret-position="1854">
               <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
               <folding />
             </state>
@@ -172,20 +85,23 @@
       <file leaf-file-name="game_ac_network.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game_ac_network.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4644">
-              <caret line="259" column="42" lean-forward="false" selection-start-line="259" selection-start-column="42" selection-end-line="259" selection-end-column="42" />
+            <state relative-caret-position="5166">
+              <caret line="288" column="42" lean-forward="false" selection-start-line="288" selection-start-column="42" selection-end-line="288" selection-end-column="42" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
+                <marker date="1514538056990" expanded="true" signature="309:409" ph="..." />
+                <marker date="1514538056990" expanded="true" signature="12269:12300" ph="..." />
+                <marker date="1514538056990" expanded="true" signature="12269:12301" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="a3c.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="a3c.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/a3c.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="191" column="36" lean-forward="true" selection-start-line="191" selection-start-column="36" selection-end-line="191" selection-end-column="36" />
+            <state relative-caret-position="406">
+              <caret line="191" column="36" lean-forward="false" selection-start-line="191" selection-start-column="36" selection-end-line="191" selection-end-column="36" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
@@ -193,7 +109,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="visualize.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="visualize.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/visualize.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="198">
@@ -277,11 +193,11 @@
         <option value="$PROJECT_DIR$/game_ac_network.py" />
         <option value="$PROJECT_DIR$/a3c_training_thread.py" />
         <option value="$PROJECT_DIR$/plot.py" />
-        <option value="$PROJECT_DIR$/jsp_data.py" />
         <option value="$PROJECT_DIR$/jsp_env.py" />
-        <option value="$PROJECT_DIR$/visualize.py" />
-        <option value="$PROJECT_DIR$/constants.py" />
         <option value="$PROJECT_DIR$/a3c.py" />
+        <option value="$PROJECT_DIR$/jsp_data.py" />
+        <option value="$PROJECT_DIR$/constants.py" />
+        <option value="$PROJECT_DIR$/visualize.py" />
       </list>
     </option>
   </component>
@@ -306,25 +222,25 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="async_deep_reinforce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="async_deep_reinforce" type="462c0819:PsiDirectoryNode" />
+              <item name="jsp-rl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jsp-rl" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/../jsp-rl/a3c_training_thread.py" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/a3c_training_thread.py" />
     <property name="SearchEverywhereHistoryKey" value="checkpoint&#9;null&#9;null&#10;rhs&#9;null&#9;null" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
@@ -430,18 +346,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="76" y="126" width="1857" height="1092" extended-state="6" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28425357" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924336" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28425357" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36605316" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -493,6 +409,9 @@
           <caret line="203" column="37" lean-forward="true" selection-start-line="203" selection-start-column="37" selection-end-line="203" selection-end-column="37" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
+            <marker date="1514538056990" expanded="true" signature="309:409" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12300" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12301" ph="..." />
           </folding>
         </state>
       </provider>
@@ -536,9 +455,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="20" column="14" lean-forward="false" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
-          <folding>
-            <element signature="e#24#58#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -556,9 +473,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
           <caret line="43" column="31" lean-forward="false" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -582,6 +497,9 @@
           <caret line="196" column="45" lean-forward="false" selection-start-line="196" selection-start-column="45" selection-end-line="196" selection-end-column="45" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
+            <marker date="1514538056990" expanded="true" signature="309:409" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12300" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12301" ph="..." />
           </folding>
         </state>
       </provider>
@@ -618,9 +536,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="20" column="14" lean-forward="false" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
-          <folding>
-            <element signature="e#24#58#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -638,32 +554,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
           <caret line="43" column="31" lean-forward="false" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/a3c_display.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a3c_visualize.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/a3c_display.py" />
+    <entry file="file://$PROJECT_DIR$/a3c_visualize.py" />
     <entry file="file://$PROJECT_DIR$/game_ac_network.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2772">
           <caret line="154" column="62" lean-forward="true" selection-start-line="154" selection-start-column="62" selection-end-line="154" selection-end-column="62" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
+            <marker date="1514538056990" expanded="true" signature="309:409" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12300" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12301" ph="..." />
           </folding>
         </state>
       </provider>
@@ -684,6 +589,9 @@
           <caret line="218" column="57" lean-forward="false" selection-start-line="218" selection-start-column="57" selection-end-line="218" selection-end-column="57" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
+            <marker date="1514538056990" expanded="true" signature="309:409" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12300" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12301" ph="..." />
           </folding>
         </state>
       </provider>
@@ -704,6 +612,9 @@
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
+            <marker date="1514538056990" expanded="true" signature="309:409" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12300" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12301" ph="..." />
           </folding>
         </state>
       </provider>
@@ -715,27 +626,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/game_state_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a3c_display.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a3c_visualize.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/game_state_test.py" />
+    <entry file="file://$PROJECT_DIR$/a3c_display.py" />
+    <entry file="file://$PROJECT_DIR$/a3c_visualize.py" />
     <entry file="file://$USER_HOME$/.local/lib/python3.5/site-packages/tensorflow/python/estimator/canned/head.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="65">
@@ -782,7 +675,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="3606" column="8" lean-forward="false" selection-start-line="3606" selection-start-column="8" selection-end-line="3606" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -819,10 +711,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game_ac_network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4644">
-          <caret line="259" column="42" lean-forward="false" selection-start-line="259" selection-start-column="42" selection-end-line="259" selection-end-column="42" />
+        <state relative-caret-position="5166">
+          <caret line="288" column="42" lean-forward="false" selection-start-line="288" selection-start-column="42" selection-end-line="288" selection-end-column="42" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
+            <marker date="1514538056990" expanded="true" signature="309:409" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12300" ph="..." />
+            <marker date="1514538056990" expanded="true" signature="12269:12301" ph="..." />
           </folding>
         </state>
       </provider>
@@ -831,7 +726,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-586">
           <caret line="53" column="4" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -857,18 +751,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jsp_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="3" column="74" lean-forward="false" selection-start-line="3" selection-start-column="74" selection-end-line="3" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/a3c_training_thread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        <state relative-caret-position="1008">
+          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
           </folding>
@@ -877,19 +763,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../library/gym/gym/core.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
+        <state relative-caret-position="1854">
           <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/a3c.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="191" column="36" lean-forward="false" selection-start-line="191" selection-start-column="36" selection-end-line="191" selection-end-column="36" />
+          <folding>
+            <element signature="e#24#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/jsp_env.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="80" column="27" lean-forward="false" selection-start-line="80" selection-start-column="27" selection-end-line="80" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2214">
+          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jsp_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="3" column="47" lean-forward="false" selection-start-line="3" selection-start-column="47" selection-end-line="3" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -899,26 +809,6 @@
           <caret line="11" column="107" lean-forward="true" selection-start-line="11" selection-start-column="107" selection-end-line="11" selection-end-column="107" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="22" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-          <folding>
-            <element signature="e#24#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/a3c.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="191" column="36" lean-forward="true" selection-start-line="191" selection-start-column="36" selection-end-line="191" selection-end-column="36" />
-          <folding>
-            <element signature="e#24#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
