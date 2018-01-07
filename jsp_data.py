@@ -1,7 +1,9 @@
 from jobshop import readJobs
 from jobshop import printJobs
+import os
+
 # from constants import DATA_PATH
-DATA_PATH = "/home/peter/hfut/sourceCode/jsp-rl/dataset/ft10"  # 数据路径
+DATA_PATH = os.path.abspath('.') + "/dataset/ft10"  # 数据路径
 is_data_loaded = False
 all_jobs = tuple()
 
