@@ -7,9 +7,6 @@ from jsp_data import get_machine_and_job_by_job_index
 from jsp_data import get_jobs_size
 from jsp_data import get_machine_size
 import time
-
-import global_var
-
 logger = logging.getLogger(__name__)
 
 
@@ -29,8 +26,6 @@ class JspEnv(gym.Env):
         self.job_size = get_jobs_size()
         self.local_state = np.zeros([2*self.job_size+1, 1])
         self.job_init_arrived_time = np.ones([self.job_size, 1]) * -1
-        self.is_machine_busy = False
-        self.remaining_time = 0  # 用来表示一个operation在加工过程中剩下的加工时间
 
         # 保存没有前驱的工序
         for i in range(len(operations)):
@@ -53,58 +48,51 @@ class JspEnv(gym.Env):
         self.action_space = self.initActions.copy()
         self.is_terminal = False
 
+        self.waiting_time = 0
 
     def _step(self, action):
-        # 如果正在加工某个工序，则等待该工序加工完
-        while self.is_machine_busy:
-            self.remaining_time -= 1
-            if self.remaining_time == 0:
-                self.is_machine_busy = False
-            self.step_synchronize()
-
+        if len(self.action_space) == 1:
+            self.waiting_time += 1
+            # time.sleep(1)
+        else:
+            self.waiting_time = 0
 
         if action == self.idle_action:
             if len(self.action_space) != 1:  # 在机器还有可选工序时，选择了空闲action，应给出惩罚
-                # 可以通过调节此reward的大小来决定是否愿意在有可选工序时继续等待
                 reward = -100
             else:
-                reward = -1
+                reward = 0
+                # 看看更新后的时钟是否可以激活提前到达的作业
+                self._activate_waiting_jobs()
+            return self.local_state, reward, self.is_terminal, {}
+        if action not in self.action_space: # 若选择的工序不在可选工序范围内，应给出惩罚
+            reward = -1000
+            return self.local_state, reward, self.is_terminal, {}
+        duration = self.operations[action, 2]
+        if self.local_state[self.job_size+action] > self.clock:
+            reward = -(self.local_state[self.job_size+action, 0] - self.clock + duration)
+            self.clock = self.local_state[self.job_size+action, 0] + duration
         else:
-            # 若选择的工序不在可选工序范围内，应给出惩罚
-            if action not in self.action_space:
-                reward = -1000
-            else:
-                duration = self.operations[action, 2]
-                # 如果选择的是提前到达的作业，即到达时间>当前时钟的作业，就要考虑机器的等待该作业真正到达的时间
-                if self.local_state[self.job_size+action] > self.clock:
-                    reward = -(self.local_state[self.job_size+action, 0] - self.clock + duration)
-                    self.clock = self.local_state[self.job_size+action, 0] + duration
-                else:
-                    self.clock += duration
-                    reward = -duration
-                # 设置机器空闲状态，并修改正在加工工序的剩余加工时间
-                self.is_machine_busy = True
-                self.remaining_time = 1 - reward  # 等价于 = (-reward) + 1    其中+1表示到下一次判断是否空闲时，已经执行了一个step
-                # 更新local state里的时钟信息
-                self.local_state[self.job_size*2] = self.clock
-                # 将加工完的工序从action space中移除
-                self.action_space.remove(action)
-                # 提前通知被移除工序的下一道工序可以启动
-                if self.init_operations[action][1] + 1 != self.machine_size:
-                    next_operation_index = [self.init_operations[action][0], self.init_operations[action][1] + 1]
-                    next_machine, next_operation = get_machine_and_job_by_job_index(next_operation_index)
-                    self.arrived_jobs[next_machine]\
-                        .append(next_operation + [self.clock])
-                # 加工完一个operation后，将其剩余时间设置为0，并同时更新local state里面的信息
-                self.operations[action, 2] = 0
-                self.local_state[action] = 0
-                # 判断是否终止
-                if np.sum(self.local_state[0:self.job_size]) == 0:
-                    self.is_terminal = True
-                else:
-                    self.is_terminal = False
-        # 同步一下step，每一个setp相当于一个时钟
-        self.step_synchronize()
+            self.clock += duration
+            reward = -duration
+        self.local_state[self.job_size*2] = self.clock
+
+        self.action_space.remove(action)  # 将加工完的工序从action space中移除
+        # 通知被移除工序的下一道工序可以启动
+        if self.init_operations[action][1] + 1 != self.machine_size:
+            next_operation_index = [self.init_operations[action][0], self.init_operations[action][1] + 1]
+            next_machine, next_operation = get_machine_and_job_by_job_index(next_operation_index)
+            self.arrived_jobs[next_machine]\
+                .append(next_operation + [self.clock])
+        self.operations[action, 2] = 0    # 加工完一个operation后，将其剩余时间设置为0
+        self.local_state[action] = 0
+        # 判断是否终止
+        if np.sum(self.local_state[0:self.job_size]) == 0:
+            self.is_terminal = True
+        else:
+            self.is_terminal = False
+        # 看看更新后的时钟是否可以激活提前到达的作业
+        self._activate_waiting_jobs()
         return self.local_state, reward, self.is_terminal, {}
 
     def _activate_waiting_jobs(self):
@@ -112,26 +100,20 @@ class JspEnv(gym.Env):
         arrived_job_num = len(self.arrived_jobs[self.machine_index])
         if arrived_job_num > 0:
             for job in self.arrived_jobs[self.machine_index]:
-                job_index = self.init_operations.index([job[0], job[1], job[2]])
-                self.action_space.append(job_index)
-                self.arrived_jobs[self.machine_index].remove(job)
-                self.local_state[self.job_size + job_index] = job[3]
-
-    def step_synchronize(self):
-        self.clock += 1
-        # 看看更新后的时钟是否可以激活提前到达的作业
-        self._activate_waiting_jobs()
-
-        global_var.condition.acquire()
-        global_var.step_synchronization_count += 1
-        a = global_var.step_synchronization_count
-        if global_var.step_synchronization_count == 15:
-            global_var.step_synchronization_count = 0
-            global_var.condition.notify_all()
-        else:
-            global_var.condition.wait()
-        global_var.condition.release()
-        a = 1+1
+                if len(self.action_space) == 1:
+                    if job[3] <= self.clock + self.waiting_time:
+                        # self.clock = max(self.clock, job[3])
+                        self.waiting_time = 0
+                        job_index = self.init_operations.index([job[0], job[1], job[2]])
+                        self.action_space.append(job_index)
+                        self.arrived_jobs[self.machine_index].remove(job)
+                        self.local_state[self.job_size+job_index] = job[3]
+                else:
+                    if job[3] <= self.clock:
+                        job_index = self.init_operations.index([job[0], job[1], job[2]])
+                        self.action_space.append(job_index)
+                        self.arrived_jobs[self.machine_index].remove(job)
+                        self.local_state[self.job_size + job_index] = job[3]
 
     # operations = dict()  # key为a_b形式，表示第a个job的第b道工序，value为每道工序的duration
     # initActions = dict()

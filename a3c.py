@@ -74,6 +74,7 @@ mutex = threading.Lock()
 #设置同步的condition
 condition = threading.Condition()
 
+
 # 设置共享变量，用来线程间通信，存放刚完成前一道工序的job，即用来通知后一道工序的机器来启动该工序为等待状态
 arrived_jobs = list()
 for i in range(MACHINE_SIZE):
@@ -83,7 +84,7 @@ for i in range(PARALLEL_SIZE):
   training_thread = A3CTrainingThread(i, global_network, initial_learning_rate,
                                       learning_rate_input,
                                       grad_applier, MAX_TIME_STEP,
-                                      device = device, arrived_jobs = arrived_jobs, terminal_count = terminal_count, mutex=mutex, condition=condition)
+                                      device = device, arrived_jobs = arrived_jobs, condition=condition)
   training_threads.append(training_thread)
 
 # prepare session

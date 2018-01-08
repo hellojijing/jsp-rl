@@ -29,7 +29,7 @@ class A3CTrainingThread(object):
                learning_rate_input,
                grad_applier,
                max_global_time_step,
-               device, arrived_jobs, terminal_count, mutex, condition):
+               device, arrived_jobs, condition):
 
     self.thread_index = thread_index
     self.learning_rate_input = learning_rate_input
@@ -37,8 +37,6 @@ class A3CTrainingThread(object):
 
     # 通过thread_index 即机器编号来获取在该机器上加工的所有工序
     self.operations = get_data_by_machine(thread_index)
-    self.terminal_count = terminal_count
-    self.mutex = mutex
     self.condition = condition
     self.is_terminal_counted = False
     self.last_episode_reward = 0
