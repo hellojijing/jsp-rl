@@ -6,7 +6,7 @@ import gym
 from jsp_data import get_machine_and_job_by_job_index
 from jsp_data import get_jobs_size
 from jsp_data import get_machine_size
-import time
+import logging
 
 import global_var
 
@@ -60,6 +60,7 @@ class JspEnv(gym.Env):
         self.remaining_time = 0
         self.is_all_jobs_finished = False
         self.is_jobs_finished_counted = False
+        self.step_count = 0
 
 
     def _step(self, action):
@@ -68,17 +69,16 @@ class JspEnv(gym.Env):
             self.step_synchronize()
             self.remaining_time -= 1
 
-
-
         # 判断是否终止，即是否所有job加工完
         if not self.is_all_jobs_finished:
             if np.sum(self.local_state[0:self.job_size]) == 0:
                 self.is_all_jobs_finished = True
 
         if action == self.idle_action:
+            self.clock += 1
             if len(self.action_space) != 1:  # 在机器还有可选工序时，选择了空闲action，应给出惩罚
                 # 可以通过调节此reward的大小来决定是否愿意在有可选工序时继续等待
-                reward = -100
+                reward = -10000
             else:
                 reward = -1
         else:
@@ -95,10 +95,7 @@ class JspEnv(gym.Env):
                     self.clock += duration
                     reward = -duration
                 # 设置机器空闲状态，并修改正在加工工序的剩余加工时间
-                self.is_machine_busy = True
                 self.remaining_time = 1-reward
-                # 更新local state里的时钟信息
-                self.local_state[self.job_size*2] = self.clock
                 # 将加工完的工序从action space中移除
                 self.action_space.remove(action)
                 # 提前通知被移除工序的下一道工序可以启动
@@ -111,9 +108,12 @@ class JspEnv(gym.Env):
                 self.operations[action, 2] = 0
                 self.local_state[action] = 0
 
-
+        # 更新local state里的时钟信息
+        self.local_state[self.job_size * 2] = self.clock
 
         self.step_synchronize()
+        if self.machine_index == 0:
+            print("local state", self.local_state)
         return self.local_state, reward, self.is_terminal, {}
 
     def _activate_waiting_jobs(self):
@@ -145,13 +145,14 @@ class JspEnv(gym.Env):
         global_var.step_synchronization_count += 1
         if global_var.step_synchronization_count == self.machine_size:
             global_var.step_synchronization_count = 0
+
+            if global_var.job_finished_count == self.machine_size:
+                global_var.is_global_terminal = True
+                global_var.job_finished_count = 0
+
             global_var.condition.notify_all()
         else:
             global_var.condition.wait()
-
-        if global_var.job_finished_count == self.machine_size:
-            global_var.is_global_terminal = True
-            global_var.job_finished_count = 0
 
         global_var.condition.release()
 

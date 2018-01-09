@@ -2,5 +2,6 @@
 tmp/*
 old/*
 checkpoints*/*
-.idea/*
+/.idea/
 *.txt
+/checkpoints/
