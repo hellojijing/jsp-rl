@@ -31,6 +31,10 @@ class JspEnv(gym.Env):
         self.job_init_arrived_time = np.ones([self.job_size, 1]) * -1
         self.is_machine_busy = False
         self.remaining_time = 0  # 用来表示一个operation在加工过程中剩下的加工时间
+        self.step_count = 0
+        self.is_all_jobs_finished = False
+        self.is_jobs_finished_counted = False
+
 
         # 保存没有前驱的工序
         for i in range(len(operations)):
@@ -52,16 +56,24 @@ class JspEnv(gym.Env):
         # 将没有前驱的工序初始化添加到action space中
         self.action_space = self.initActions.copy()
         self.is_terminal = False
+        self.is_machine_busy = False
+        self.remaining_time = 0
+        self.is_all_jobs_finished = False
+        self.is_jobs_finished_counted = False
 
 
     def _step(self, action):
         # 如果正在加工某个工序，则等待该工序加工完
-        while self.is_machine_busy:
-            self.remaining_time -= 1
-            if self.remaining_time == 0:
-                self.is_machine_busy = False
+        while self.remaining_time != 0:
             self.step_synchronize()
+            self.remaining_time -= 1
 
+
+
+        # 判断是否终止，即是否所有job加工完
+        if not self.is_all_jobs_finished:
+            if np.sum(self.local_state[0:self.job_size]) == 0:
+                self.is_all_jobs_finished = True
 
         if action == self.idle_action:
             if len(self.action_space) != 1:  # 在机器还有可选工序时，选择了空闲action，应给出惩罚
@@ -84,7 +96,7 @@ class JspEnv(gym.Env):
                     reward = -duration
                 # 设置机器空闲状态，并修改正在加工工序的剩余加工时间
                 self.is_machine_busy = True
-                self.remaining_time = 1 - reward  # 等价于 = (-reward) + 1    其中+1表示到下一次判断是否空闲时，已经执行了一个step
+                self.remaining_time = 1-reward
                 # 更新local state里的时钟信息
                 self.local_state[self.job_size*2] = self.clock
                 # 将加工完的工序从action space中移除
@@ -98,12 +110,9 @@ class JspEnv(gym.Env):
                 # 加工完一个operation后，将其剩余时间设置为0，并同时更新local state里面的信息
                 self.operations[action, 2] = 0
                 self.local_state[action] = 0
-                # 判断是否终止
-                if np.sum(self.local_state[0:self.job_size]) == 0:
-                    self.is_terminal = True
-                else:
-                    self.is_terminal = False
-        # 同步一下step，每一个setp相当于一个时钟
+
+
+
         self.step_synchronize()
         return self.local_state, reward, self.is_terminal, {}
 
@@ -118,20 +127,39 @@ class JspEnv(gym.Env):
                 self.local_state[self.job_size + job_index] = job[3]
 
     def step_synchronize(self):
-        self.clock += 1
+        self.step_count += 1
         # 看看更新后的时钟是否可以激活提前到达的作业
         self._activate_waiting_jobs()
 
         global_var.condition.acquire()
+
+        if self.is_all_jobs_finished:
+            if not self.is_jobs_finished_counted:
+                global_var.job_finished_count += 1
+                self.is_jobs_finished_counted = True
+            else:
+                if global_var.is_global_terminal is True:
+                    self.is_terminal = True
+                    print("machine=%d, clock=%d, step=%d" % (self.machine_index, self.clock, self.step_count))
+
         global_var.step_synchronization_count += 1
-        a = global_var.step_synchronization_count
-        if global_var.step_synchronization_count == 15:
+        if global_var.step_synchronization_count == self.machine_size:
             global_var.step_synchronization_count = 0
             global_var.condition.notify_all()
         else:
             global_var.condition.wait()
+
+        if global_var.job_finished_count == self.machine_size:
+            global_var.is_global_terminal = True
+            global_var.job_finished_count = 0
+
         global_var.condition.release()
-        a = 1+1
+
+    # def _is_terminal(self):
+    #     global_var.condition.acquire()
+    #     if global_var.job_finished_count == self.machine_size:
+    #         self.is_terminal = True
+    #     global_var.condition.release()
 
     # operations = dict()  # key为a_b形式，表示第a个job的第b道工序，value为每道工序的duration
     # initActions = dict()

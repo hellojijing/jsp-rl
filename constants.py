@@ -24,5 +24,5 @@ USE_GPU = True # To use GPU, set True
 USE_LSTM = True # True for A3C LSTM, False for A3C FF
 
 PROJECT_PATH = "/home/peter/hfut/sourceCode/async_deep_reinforce"  # 数据路径
-MAX_TIME_EPISODE = 50
+MAX_TIME_EPISODE = 10
 MACHINE_SIZE = get_machine_size()

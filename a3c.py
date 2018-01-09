@@ -32,6 +32,7 @@ from constants import MACHINE_SIZE
 from constants import RESULT_DIR
 
 from plot import line_plot
+import global_var
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
@@ -158,6 +159,8 @@ def train_function(parallel_index):
         condition.notifyAll()
     else:
         condition.wait()
+    if global_var.is_global_terminal is True:
+        global_var.is_global_terminal = False
     condition.release()
 
     local_episode += 1
