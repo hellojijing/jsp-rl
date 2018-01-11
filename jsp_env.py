@@ -1,7 +1,4 @@
-import logging
 import numpy as np
-import random
-from gym import spaces
 import gym
 from jsp_data import get_machine_and_job_by_job_index
 from jsp_data import get_jobs_size
@@ -78,13 +75,14 @@ class JspEnv(gym.Env):
             self.clock += 1
             if len(self.action_space) != 1:  # 在机器还有可选工序时，选择了空闲action，应给出惩罚
                 # 可以通过调节此reward的大小来决定是否愿意在有可选工序时继续等待
-                reward = -10000
+                reward = -100
             else:
                 reward = -1
         else:
             # 若选择的工序不在可选工序范围内，应给出惩罚
             if action not in self.action_space:
-                reward = -1000
+                self.clock += 1
+                reward = -100
             else:
                 duration = self.operations[action, 2]
                 # 如果选择的是提前到达的作业，即到达时间>当前时钟的作业，就要考虑机器的等待该作业真正到达的时间
@@ -112,8 +110,6 @@ class JspEnv(gym.Env):
         self.local_state[self.job_size * 2] = self.clock
 
         self.step_synchronize()
-        if self.machine_index == 0:
-            print("local state", self.local_state)
         return self.local_state, reward, self.is_terminal, {}
 
     def _activate_waiting_jobs(self):
@@ -140,7 +136,6 @@ class JspEnv(gym.Env):
             else:
                 if global_var.is_global_terminal is True:
                     self.is_terminal = True
-                    print("machine=%d, clock=%d, step=%d" % (self.machine_index, self.clock, self.step_count))
 
         global_var.step_synchronization_count += 1
         if global_var.step_synchronization_count == self.machine_size:

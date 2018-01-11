@@ -145,9 +145,8 @@ def train_function(parallel_index):
                                             summary_op, score_input)
     global_t += diff_global_t
 
-    print("\n----------------------------------------------------------------")
-    # print("time = {}".format(time.time()))
-    print("machine = %d, episode = %d, complete time = %d"%(parallel_index, local_episode, episode_complete_time))
+    if parallel_index == 0:
+        print("episode = %d, complete time = %d, reward = %d"%(local_episode, episode_complete_time, episode_reward))
 
     complete_time[local_episode][parallel_index] = episode_complete_time
     all_episode_rewards[local_episode][parallel_index] = episode_reward
