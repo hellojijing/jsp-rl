@@ -136,35 +136,40 @@ print('all episode rewards = {}'.format(all_episode_rewards))
 
 # complete_time = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
 # all_episode_rewards = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
-
+use_max_choice = False
 def train_function(parallel_index):
   global global_t
-
+  global use_max_choice
   training_thread = training_threads[parallel_index]
   # set start_time
   start_time = time.time() - wall_t
   training_thread.set_start_time(start_time)
 
-  use_max_choice = False
+
   while True:
     if stop_requested:
       break
     # if global_t > MAX_TIME_STEP:
     #   break
-    if global_t > MAX_TIME_EPISODE - 1:
+    if global_t > MAX_TIME_EPISODE:
       break
-    if global_t % RECORD_REWARD_INTERVAL == 0:
-       use_max_choice = True
-    else:
-        use_max_choice = False
+
     diff_global_t, episode_complete_time, episode_reward = training_thread.process(sess, global_t, summary_writer,
                                             summary_op, score_input, use_max_choice)
+
 
     if parallel_index == 0:
         if use_max_choice:
             all_episode_rewards.append(episode_reward)
+        print("episode = %d, complete time = %d, reward = %d" % (global_t, episode_complete_time, episode_reward))
+
+        if global_t % RECORD_REWARD_INTERVAL == 0:
+            use_max_choice = True
+        else:
+            use_max_choice = False
+
         global_t += 1
-        print("episode = %d, complete time = %d, reward = %d"%(global_t, episode_complete_time, episode_reward))
+
 
     # complete_time[global_t][parallel_index] = episode_complete_time
     # all_episode_rewards[global_t][parallel_index] = episode_reward
