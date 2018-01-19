@@ -28,12 +28,12 @@ class A3CTrainingThread(object):
                initial_learning_rate,
                learning_rate_input,
                grad_applier,
-               max_global_time_step,
+               max_global_time_episode,
                device, arrived_jobs, condition):
 
     self.thread_index = thread_index
     self.learning_rate_input = learning_rate_input
-    self.max_global_time_step = max_global_time_step
+    self.max_global_time_episode = max_global_time_episode
 
     # 通过thread_index 即机器编号来获取在该机器上加工的所有工序
     self.operations = get_data_by_machine(thread_index)
@@ -79,13 +79,13 @@ class A3CTrainingThread(object):
     self.prev_local_t = 0
 
   def _anneal_learning_rate(self, global_time_step):
-    learning_rate = self.initial_learning_rate * (self.max_global_time_step - global_time_step) / self.max_global_time_step
+    # return self.initial_learning_rate
+    learning_rate = self.initial_learning_rate * (self.max_global_time_episode - global_time_step) / self.max_global_time_episode
     if learning_rate < 0.0:
       learning_rate = 0.0
     return learning_rate
 
-  def choose_action(self, pi_values):
-    sum = np.sum(pi_values)
+  def choose_action(self, pi_values, use_max_choice):
     for i in range(len(pi_values)):
       if i not in self.env.action_space:
         pi_values[i] = 0
@@ -95,8 +95,12 @@ class A3CTrainingThread(object):
     else:
       for i in range(len(pi_values)):
         pi_values[i] = pi_values[i] / sum
-      sum = np.sum(pi_values)
-      return np.random.choice(range(len(pi_values)), p=pi_values)
+      if use_max_choice:
+        if len(self.env.action_space) != 1:
+          pi_values[self.env.machine_size] = 0
+        return np.argmax(pi_values)
+      else:
+        return np.random.choice(range(len(pi_values)), p=pi_values)
 
 
 
@@ -110,7 +114,7 @@ class A3CTrainingThread(object):
   def set_start_time(self, start_time):
     self.start_time = start_time
 
-  def process(self, sess, global_t, summary_writer, summary_op, score_input):
+  def process(self, sess, global_t, summary_writer, summary_op, score_input, use_max_choice):
     states = []
     actions = []
     rewards = []
@@ -131,7 +135,7 @@ class A3CTrainingThread(object):
     while True:
       # pi_, value_ = self.local_network.run_policy_and_value(sess, self.game_state.s_t)
       pi_, value_ = self.local_network.run_policy_and_value(sess, self.env.local_state)
-      action = self.choose_action(pi_)
+      action = self.choose_action(pi_, use_max_choice)
 
       # states.append(self.game_state.s_t)
       states.append(self.env.local_state)

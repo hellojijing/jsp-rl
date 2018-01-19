@@ -81,8 +81,7 @@ class JspEnv(gym.Env):
         else:
             # 若选择的工序不在可选工序范围内，应给出惩罚
             if action not in self.action_space:
-                self.clock += 1
-                reward = -100
+                reward = -1000
             else:
                 duration = self.operations[action, 2]
                 # 如果选择的是提前到达的作业，即到达时间>当前时钟的作业，就要考虑机器的等待该作业真正到达的时间

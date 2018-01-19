@@ -9,6 +9,7 @@ import random
 import math
 import os
 import time
+import pickle
 
 from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
 from a3c_training_thread import A3CTrainingThread
@@ -29,7 +30,8 @@ from constants import USE_GPU
 from constants import USE_LSTM
 from constants import MAX_TIME_EPISODE
 from constants import MACHINE_SIZE
-from constants import RESULT_DIR
+from constants import RECORD_REWARD_INTERVAL
+
 
 from plot import line_plot
 import global_var
@@ -49,7 +51,7 @@ if USE_GPU:
 initial_learning_rate = log_uniform(INITIAL_ALPHA_LOW,
                                     INITIAL_ALPHA_HIGH,
                                     INITIAL_ALPHA_LOG_RATE)
-
+print('initial_learning_rate = %f' % initial_learning_rate)
 global_t = 0
 
 stop_requested = False
@@ -84,7 +86,7 @@ terminal_count = [0]
 for i in range(PARALLEL_SIZE):
   training_thread = A3CTrainingThread(i, global_network, initial_learning_rate,
                                       learning_rate_input,
-                                      grad_applier, MAX_TIME_STEP,
+                                      grad_applier, MAX_TIME_EPISODE,
                                       device = device, arrived_jobs = arrived_jobs, condition=condition)
   training_threads.append(training_thread)
 
@@ -121,8 +123,19 @@ else:
   # set wall time
   wall_t = 0.0
 
-complete_time = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
-all_episode_rewards = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
+all_episode_rewards = list()
+try:
+    with open('all_episode_rewards.pickle', 'rb') as f:
+        all_episode_rewards = pickle.load(f)
+except IOError:
+    pass
+print('all episode rewards = {}'.format(all_episode_rewards))
+# with open('global_episode_time', 'rb') as f:
+#     global_episode_time = pickle.load(f)
+# print('global episode time = %d' % global_episode_time)
+
+# complete_time = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
+# all_episode_rewards = np.zeros([MAX_TIME_EPISODE, MACHINE_SIZE])
 
 def train_function(parallel_index):
   global global_t
@@ -132,24 +145,29 @@ def train_function(parallel_index):
   start_time = time.time() - wall_t
   training_thread.set_start_time(start_time)
 
-  local_episode = 0
+  use_max_choice = False
   while True:
     if stop_requested:
       break
     # if global_t > MAX_TIME_STEP:
     #   break
-    if local_episode > MAX_TIME_EPISODE - 1:
+    if global_t > MAX_TIME_EPISODE - 1:
       break
-
+    if global_t % RECORD_REWARD_INTERVAL == 0:
+       use_max_choice = True
+    else:
+        use_max_choice = False
     diff_global_t, episode_complete_time, episode_reward = training_thread.process(sess, global_t, summary_writer,
-                                            summary_op, score_input)
-    global_t += diff_global_t
+                                            summary_op, score_input, use_max_choice)
 
     if parallel_index == 0:
-        print("episode = %d, complete time = %d, reward = %d"%(local_episode, episode_complete_time, episode_reward))
+        if use_max_choice:
+            all_episode_rewards.append(episode_reward)
+        global_t += 1
+        print("episode = %d, complete time = %d, reward = %d"%(global_t, episode_complete_time, episode_reward))
 
-    complete_time[local_episode][parallel_index] = episode_complete_time
-    all_episode_rewards[local_episode][parallel_index] = episode_reward
+    # complete_time[global_t][parallel_index] = episode_complete_time
+    # all_episode_rewards[global_t][parallel_index] = episode_reward
 
     condition.acquire()
     terminal_count[0] += 1
@@ -162,7 +180,6 @@ def train_function(parallel_index):
         global_var.is_global_terminal = False
     condition.release()
 
-    local_episode += 1
 
     
     
@@ -186,18 +203,21 @@ for t in train_threads:
 print('Press Ctrl+C to stop')
 signal.pause()
 
-makespan = complete_time.max(axis=1)
-print("complete time: /n={}".format(complete_time))
-print("complete time for each episode: /n={}".format(makespan))
+# makespan = complete_time.max(axis=1)
+# print("complete time: /n={}".format(complete_time))
+# print("complete time for each episode: /n={}".format(makespan))
 
-line_plot(np.arange(MAX_TIME_EPISODE), makespan, "episode", "makespan", "Makespan")
+line_plot(np.arange(len(all_episode_rewards)), tuple(all_episode_rewards), "episode", "reward", "all_episode_rewards")
 
-np.savetxt('makespan.txt', makespan)
-np.savetxt('complete_time.txt', complete_time)
-np.savetxt('all_episode_rewards.txt', all_episode_rewards)
-
+# np.savetxt('makespan.txt', makespan)
+# np.savetxt('complete_time.txt', complete_time)
+# np.savetxt('all_episode_rewards.txt', all_episode_rewards)
 
 print('Now saving data. Please wait')
+
+with open('all_episode_rewards.pickle', 'wb') as f:
+    f.truncate()
+    pickle.dump(all_episode_rewards, f)
 
 for t in train_threads:
   t.join()

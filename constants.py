@@ -18,11 +18,12 @@ ACTION_SIZE = get_jobs_size()+1 # action size  +1表示该机器没有处于等�
 INITIAL_ALPHA_LOG_RATE = 0.4226 # log_uniform interpolate rate for learning rate (around 7 * 10^-4)
 GAMMA = 1 # discount factor for rewards
 ENTROPY_BETA = 0.01 # entropy regurarlization constant
-MAX_TIME_STEP = 10 * 10**7
+MAX_TIME_STEP = 10**7
 GRAD_NORM_CLIP = 40.0 # gradient norm clipping
 USE_GPU = True # To use GPU, set True
 USE_LSTM = True # True for A3C LSTM, False for A3C FF
 
 PROJECT_PATH = "/home/peter/hfut/sourceCode/async_deep_reinforce"  # 数据路径
-MAX_TIME_EPISODE = 7000
+MAX_TIME_EPISODE = 2000
+RECORD_REWARD_INTERVAL = 10
 MACHINE_SIZE = get_machine_size()
