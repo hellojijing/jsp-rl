@@ -56,10 +56,10 @@ global_t = 0
 
 stop_requested = False
 
-if USE_LSTM:
-  global_network = GameACLSTMNetwork(ACTION_SIZE, -1, device)
-else:
-  global_network = GameACFFNetwork(ACTION_SIZE, -1, device)
+# if USE_LSTM:
+#   global_network = GameACLSTMNetwork(ACTION_SIZE, -1, device)
+# else:
+#   global_network = GameACFFNetwork(ACTION_SIZE, -1, device)
 
 
 training_threads = []
@@ -84,7 +84,7 @@ for i in range(MACHINE_SIZE):
     arrived_jobs.append(list())
 terminal_count = [0]
 for i in range(PARALLEL_SIZE):
-  training_thread = A3CTrainingThread(i, global_network, initial_learning_rate,
+  training_thread = A3CTrainingThread(i, initial_learning_rate,
                                       learning_rate_input,
                                       grad_applier, MAX_TIME_EPISODE,
                                       device = device, arrived_jobs = arrived_jobs, condition=condition)

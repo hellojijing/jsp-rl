@@ -24,7 +24,6 @@ PERFORMANCE_LOG_INTERVAL = 1000
 class A3CTrainingThread(object):
   def __init__(self,
                thread_index,
-               global_network,
                initial_learning_rate,
                learning_rate_input,
                grad_applier,
@@ -60,10 +59,10 @@ class A3CTrainingThread(object):
         colocate_gradients_with_ops=False)
 
     self.apply_gradients = grad_applier.apply_gradients(
-      global_network.get_vars(),
+      self.local_network.get_vars(),
       self.gradients )
       
-    self.sync = self.local_network.sync_from(global_network)
+    # self.sync = self.local_network.sync_from(global_network)
     
     # self.game_state = GameState(113 * thread_index)
     # 创建该工序的环境
@@ -86,21 +85,28 @@ class A3CTrainingThread(object):
     return learning_rate
 
   def choose_action(self, pi_values, use_max_choice):
-    for i in range(len(pi_values)):
-      if i not in self.env.action_space:
-        pi_values[i] = 0
-    sum = np.sum(pi_values)
-    if sum == 0:
-      return np.random.choice(self.env.action_space)
-    else:
-      for i in range(len(pi_values)):
-        pi_values[i] = pi_values[i] / sum
-      if use_max_choice:
-        if len(self.env.action_space) != 1:
-          pi_values[self.env.machine_size] = 0
-        return np.argmax(pi_values)
-      else:
-        return np.random.choice(range(len(pi_values)), p=pi_values)
+    # if len(self.env.action_space) != 1:
+    #   print('\n------------------------------------------------'
+    #         'machine = {}'.format(self.thread_index))
+    #   print('action space = {}'.format(self.env.action_space))
+    #   print('pi = {}'.format(pi_values))
+    #
+    # for i in range(len(pi_values)):
+    #   if i not in self.env.action_space:
+    #     pi_values[i] = 0
+    # sum = np.sum(pi_values)
+    # if sum == 0:
+    #   return np.random.choice(self.env.action_space)
+    # else:
+    #   for i in range(len(pi_values)):
+    #     pi_values[i] = pi_values[i] / sum
+    #   if use_max_choice:
+    #     if len(self.env.action_space) != 1:
+    #       pi_values[self.env.machine_size] = 0
+    #     return np.argmax(pi_values)
+    #   else:
+    #     return np.random.choice(range(len(pi_values)), p=pi_values)
+    return np.random.choice(range(len(pi_values)), p=pi_values)
 
 
 
@@ -123,7 +129,7 @@ class A3CTrainingThread(object):
     terminal_end = False
 
     # copy weights from shared to local
-    sess.run( self.sync )
+    # sess.run( self.sync )
 
     start_local_t = self.local_t
 
@@ -167,7 +173,8 @@ class A3CTrainingThread(object):
       self.episode_reward += reward
 
       # clip reward
-      rewards.append( np.clip(reward, -1, 1) )
+      # rewards.append( np.clip(reward, -1, 1) )
+      rewards.append(reward)
 
       self.local_t += 1
 
@@ -257,12 +264,12 @@ class A3CTrainingThread(object):
                   self.local_network.r: batch_R,
                   self.learning_rate_input: cur_learning_rate} )
       
-    if (self.thread_index == 0) and (self.local_t - self.prev_local_t >= PERFORMANCE_LOG_INTERVAL):
-      self.prev_local_t += PERFORMANCE_LOG_INTERVAL
-      elapsed_time = time.time() - self.start_time
-      steps_per_sec = global_t / elapsed_time
-      print("### Performance : {} STEPS in {:.0f} sec. {:.0f} STEPS/sec. {:.2f}M STEPS/hour".format(
-        global_t,  elapsed_time, steps_per_sec, steps_per_sec * 3600 / 1000000.))
+    # if (self.thread_index == 0) and (self.local_t - self.prev_local_t >= PERFORMANCE_LOG_INTERVAL):
+    #   self.prev_local_t += PERFORMANCE_LOG_INTERVAL
+    #   elapsed_time = time.time() - self.start_time
+    #   steps_per_sec = global_t / elapsed_time
+    #   print("### Performance : {} STEPS in {:.0f} sec. {:.0f} STEPS/sec. {:.2f}M STEPS/hour".format(
+    #     global_t,  elapsed_time, steps_per_sec, steps_per_sec * 3600 / 1000000.))
 
     # return advanced local step size
     diff_local_t = self.local_t - start_local_t

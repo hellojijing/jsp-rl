@@ -5,3 +5,5 @@ checkpoints*/*
 /.idea/
 *.txt
 /checkpoints/
+*.pickle
+
