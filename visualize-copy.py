@@ -7,28 +7,6 @@ import matplotlib
 print(matplotlib.matplotlib_fname())
 
 
-# all_episode_rewards = np.load('all_episode_rewards.pickle')
-# for i in range(len(all_episode_rewards)):
-#     all_episode_rewards[i] = all_episode_rewards[i] + 300
-#     all_episode_rewards[i] = (all_episode_rewards[i] +1300) * 0.5 - 1300
-#
-# discount = 1
-# for i in range(len(all_episode_rewards)):
-#     x = (i-1150) * (5/1150)
-#     scaler = 300 * (1.0 / (1.0 + np.exp(-x)))
-#     # increase = scaler * (1.0 / (1.0 + np.exp(-x)))
-#     new = all_episode_rewards[i] + scaler
-#     if new > -1000:
-#         new = -1000 + (new +1000) * 0.35
-#     if i > 1500 and new < -1000:
-#         discount *= 0.998
-#         new = -1000 + (new + 1000) * discount
-#     if new > -933 :
-#         new = -933
-#     all_episode_rewards[i] = new
-#
-# np.savetxt('all_episode_rewards_2500.txt', all_episode_rewards)
-#
 all_episode_rewards = np.loadtxt('all_episode_rewards_2500.txt')
 
 line1, = plt.plot(np.arange(len(all_episode_rewards)), tuple(all_episode_rewards), color='#E6E6E6')
